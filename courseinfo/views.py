@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
-
+from courseinfo.utils import ObjectCreateMixin
+from courseinfo.forms import InstructorForm, SectionForm, CourseForm, SemesterForm, StudentForm, RegistrationForm
 from courseinfo.models import (
     Instructor,
     Section,
@@ -34,6 +35,11 @@ class InstructorDetail(View):
         )
 
 
+class InstructorCreate(ObjectCreateMixin, View):
+    form_class = InstructorForm
+    template_name = 'courseinfo/instructor_form.html'
+
+
 class SectionList(View):
     def get(self, request):
         return render(
@@ -65,6 +71,11 @@ class SectionDetail(View):
         )
 
 
+class SectionCreate(ObjectCreateMixin, View):
+    form_class = SectionForm
+    template_name = 'courseinfo/section_form.html'
+
+
 class CourseList(View):
     def get(self, request):
         return render(
@@ -89,6 +100,11 @@ class CourseDetail(View):
         )
 
 
+class CourseCreate(ObjectCreateMixin, View):
+    form_class = CourseForm
+    template_name = 'courseinfo/course_form.html'
+
+
 class SemesterList(View):
     def get(self, request):
         return render(
@@ -110,6 +126,11 @@ class SemesterDetail(View):
             'courseinfo/semester_detail.html',
             {'semester': semester, 'section_list': section_list}
         )
+
+
+class SemesterCreate(ObjectCreateMixin, View):
+    form_class = SemesterForm
+    template_name = 'courseinfo/semester_form.html'
 
 
 class StudentList(View):
@@ -136,6 +157,11 @@ class StudentDetail(View):
         )
 
 
+class StudentCreate(ObjectCreateMixin, View):
+    form_class = StudentForm
+    template_name = 'courseinfo/student_form.html'
+
+
 class RegistrationList(View):
     def get(self, request):
         return render(
@@ -156,3 +182,8 @@ class RegistrationDetail(View):
             'courseinfo/registration_detail.html',
             {'registration': registration}
         )
+
+
+class RegistrationCreate(ObjectCreateMixin, View):
+    form_class = RegistrationForm
+    template_name = 'courseinfo/registration_form.html'
