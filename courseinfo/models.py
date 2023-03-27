@@ -39,6 +39,11 @@ class Semester(models.Model):
                         kwargs={'pk': self.pk}
         )
 
+    def get_update_url(self):
+        return reverse('courseinfo_semester_update_urlpattern',
+
+                        kwargs={'pk': self.pk})
+
     class Meta:
         ordering = ['year__year', 'period__period_sequence']
         constraints = [
@@ -58,6 +63,10 @@ class Course(models.Model):
         return reverse('courseinfo_course_detail_urlpattern',
                         kwargs={'pk': self.pk}
         )
+
+    def get_update_url(self):
+        return reverse('courseinfo_course_update_urlpattern',
+                        kwargs={'pk': self.pk})
 
     class Meta:
         ordering = ['course_number', 'course_name']
@@ -82,8 +91,11 @@ class Instructor(models.Model):
 
     def get_absolute_url(self):
         return reverse('courseinfo_instructor_detail_urlpattern',
-                        kwargs={'pk': self.pk}
-        )
+                        kwargs={'pk': self.pk})
+
+    def get_update_url(self):
+        return reverse('courseinfo_instructor_update_urlpattern',
+                        kwargs={'pk': self.pk})
 
     class Meta:
         ordering = ['last_name', 'first_name', 'disambiguator']
@@ -111,6 +123,11 @@ class Student(models.Model):
                         kwargs={'pk': self.pk}
         )
 
+    def get_update_url(self):
+        return reverse('courseinfo_student_update_urlpattern',
+
+                        kwargs={'pk': self.pk})
+
     class Meta:
         ordering = ['last_name', 'first_name', 'disambiguator']
         constraints = [
@@ -133,6 +150,10 @@ class Section(models.Model):
                         kwargs={'pk': self.pk}
         )
 
+    def get_update_url(self):
+        return reverse('courseinfo_section_update_urlpattern',
+                        kwargs={'pk': self.pk})
+
     class Meta:
         ordering = ['course', 'section_name', 'semester']
         constraints = [
@@ -152,6 +173,11 @@ class Registration(models.Model):
         return reverse('courseinfo_registration_detail_urlpattern',
                         kwargs={'pk': self.pk}
         )
+
+    def get_update_url(self):
+        return reverse('courseinfo_registration_update_urlpattern',
+
+                        kwargs={'pk': self.pk})
 
     class Meta:
         ordering = ['section', 'student']
