@@ -1,4 +1,4 @@
-{%extends 'courseinfo/base.html'%}
+{% extends 'courseinfo/base.html' %}
 
 {% block title %}
     Section List
@@ -7,16 +7,17 @@
 {% block content %}
     <h2>Section List</h2>
     <div>
-        <a href="{%  url 'courseinfo_section_create_urlpattern' %}" >
-            Create New Section </a>
+      <a href="{% url 'courseinfo_section_create_urlpattern' %}"
+      class="button button-primary">
+        Create New Section</a>
     </div>
     <ul>
-        {% for section in section_list  %}
+        {% for section in section_list %}
             <li>
-                <a href="{{ section.get_absolute_url }}">{{section}}</a>
+                <a href="{{ section.get_absolute_url }}">{{ section }}</a>
             </li>
         {% empty %}
-            <li><em>There are currently no sections available</em></li>
+            <li><em>There are currently no sections available.</em></li>
         {% endfor %}
     </ul>
 {% endblock %}

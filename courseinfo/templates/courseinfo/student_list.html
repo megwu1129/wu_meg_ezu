@@ -1,4 +1,4 @@
-{%extends 'courseinfo/base.html'%}
+{% extends 'courseinfo/base.html' %}
 
 {% block title %}
     Student List
@@ -7,20 +7,21 @@
 {% block content %}
     <h2>Student List</h2>
     <div>
-        <a href="{%  url 'courseinfo_student_create_urlpattern' %}" >
-            Create New Student </a>
+      <a href="{% url 'courseinfo_student_create_urlpattern' %}"
+         class="button button-primary">
+        Create New Student</a>
     </div>
     <ul>
-        {% for student in student_list  %}
+        {% for student in student_list %}
             <li>
-                <a href="{{ student.get_absolute_url }}">{{student}}</a>
+                <a href="{{ student.get_absolute_url }}">{{ student }}</a>
             </li>
         {% empty %}
-            <li><em>There are currently no students available</em></li>
+            <li><em>There are currently no students available.</em></li>
         {% endfor %}
     </ul>
 
-    {% if is_paginated %}
+      {% if is_paginated %}
     <ul>
       {% if previous_page_url %}
         <li>
@@ -29,7 +30,7 @@
         </li>
       {% endif %}
       <li>
-        Page {{ instructor_list.number }}
+        Page {{ student_list.number }}
         of {{ paginator.num_pages }}
       </li>
       {% if next_page_url %}

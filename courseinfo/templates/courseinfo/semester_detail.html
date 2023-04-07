@@ -6,18 +6,17 @@
 
 {% block content %}
     <h2>{{ semester }}</h2>
-    <ul>
+    <ul class="ezu-button-list">
         <li>
-            <a href="{{ semester.get_update_url }}">
-                Edit Semester
-            </a>
-        </li>
+          <a href="{{ semester.get_update_url }}"
+             class="button button-primary">
+            Edit Semester</a></li>
         <li>
-            <a href="{{ semester.get_delete_url }}">
-                Delete Semester
-            </a>
-        </li>
+          <a href="{{ semester.get_delete_url }}"
+             class="button button-primary">
+            Delete Semester</a></li>
     </ul>
+
     <section>
         <h3>Sections</h3>
         <ul>
