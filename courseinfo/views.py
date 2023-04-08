@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
+from django.views.generic import ListView
 from courseinfo.utils import ObjectCreateMixin
+from .utils import PageLinksMixin
 from courseinfo.forms import InstructorForm, SectionForm, CourseForm, SemesterForm, StudentForm, RegistrationForm
 from courseinfo.models import (
     Instructor,
@@ -13,49 +15,9 @@ from courseinfo.models import (
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
-class InstructorList(View):
-    page_kwarg = 'page'
-    paginate_by = 25;  # 25 instructors per page
-    template_name = 'courseinfo/instructor_list.html'
-
-    def get(self, request):
-        instructors = Instructor.objects.all()
-        paginator = Paginator(
-            instructors,
-            self.paginate_by
-        )
-        page_number = request.GET.get(
-            self.page_kwarg
-        )
-        try:
-            page = paginator.page(page_number)
-        except PageNotAnInteger:
-            page = paginator.page(1)
-        except EmptyPage:
-            page = paginator.page(
-                paginator.num_pages)
-        if page.has_previous():
-            prev_url = "?{pkw}={n}".format(
-                pkw=self.page_kwarg,
-                n=page.previous_page_number())
-        else:
-            prev_url = None
-        if page.has_next():
-            next_url = "?{pkw}={n}".format(
-                pkw=self.page_kwarg,
-                n=page.next_page_number())
-        else:
-            next_url = None
-        context = {
-            'is_paginated':
-                page.has_other_pages(),
-            'next_page_url': next_url,
-            'paginator': paginator,
-            'previous_page_url': prev_url,
-            'instructor_list': page,
-        }
-        return render(
-            request, self.template_name, context)
+class InstructorList(PageLinksMixin, ListView):
+    paginate_by = 25
+    model = Instructor
 
 
 class InstructorDetail(View):
@@ -485,50 +447,54 @@ class SemesterDelete(View):
 #             {'student_list': Student.objects.all()}
 #         )
 
-class StudentList(View):
-    page_kwarg = 'page'
-    paginate_by = 25;  # 25 student per page
-    template_name = 'courseinfo/instructor_list.html'
+# class StudentList(View):
+#     page_kwarg = 'page'
+#     paginate_by = 25;  # 25 student per page
+#     template_name = 'courseinfo/instructor_list.html'
+#
+#     def get(self, request):
+#         student = Student.objects.all()
+#         paginator = Paginator(
+#             student,
+#             self.paginate_by
+#         )
+#         page_number = request.GET.get(
+#             self.page_kwarg
+#         )
+#         try:
+#             page = paginator.page(page_number)
+#         except PageNotAnInteger:
+#             page = paginator.page(1)
+#         except EmptyPage:
+#             page = paginator.page(
+#                 paginator.num_pages)
+#         if page.has_previous():
+#             prev_url = "?{pkw}={n}".format(
+#                 pkw=self.page_kwarg,
+#                 n=page.previous_page_number())
+#         else:
+#             prev_url = None
+#         if page.has_next():
+#             next_url = "?{pkw}={n}".format(
+#                 pkw=self.page_kwarg,
+#                 n=page.next_page_number())
+#         else:
+#             next_url = None
+#         context = {
+#             'is_paginated':
+#                 page.has_other_pages(),
+#             'next_page_url': next_url,
+#             'paginator': paginator,
+#             'previous_page_url': prev_url,
+#             'instructor_list': page,
+#         }
+#         return render(
+#             request, self.template_name, context)
 
-    def get(self, request):
-        student = Student.objects.all()
-        paginator = Paginator(
-            student,
-            self.paginate_by
-        )
-        page_number = request.GET.get(
-            self.page_kwarg
-        )
-        try:
-            page = paginator.page(page_number)
-        except PageNotAnInteger:
-            page = paginator.page(1)
-        except EmptyPage:
-            page = paginator.page(
-                paginator.num_pages)
-        if page.has_previous():
-            prev_url = "?{pkw}={n}".format(
-                pkw=self.page_kwarg,
-                n=page.previous_page_number())
-        else:
-            prev_url = None
-        if page.has_next():
-            next_url = "?{pkw}={n}".format(
-                pkw=self.page_kwarg,
-                n=page.next_page_number())
-        else:
-            next_url = None
-        context = {
-            'is_paginated':
-                page.has_other_pages(),
-            'next_page_url': next_url,
-            'paginator': paginator,
-            'previous_page_url': prev_url,
-            'instructor_list': page,
-        }
-        return render(
-            request, self.template_name, context)
 
+class StudentList(PageLinksMixin, ListView):
+    paginate_by = 25
+    model = Student
 
 class StudentDetail(View):
     def get(self, request, pk):
