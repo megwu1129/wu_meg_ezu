@@ -94,10 +94,12 @@ class SectionUpdate(UpdateView):
     template_name = 'courseinfo/section_form_update.html'
 
 
-class SectionDelete(View):
+class SectionDelete(DeleteView):
+    model = Section
+    success_url = reverse_lazy('courseinfo_section_list_urlpattern')
 
     def get(self, request, pk):
-        section = self.get_object(pk)
+        section = get_object_or_404(Section, pk=pk)
         registrations = section.registrations.all()
         if registrations.count() > 0:
             return render(
@@ -113,16 +115,6 @@ class SectionDelete(View):
                 'courseinfo/section_confirm_delete.html',
                 {'section': section}
             )
-
-    def get_object(self, pk):
-        return get_object_or_404(
-            Section,
-            pk=pk)
-
-    def post(self, request, pk):
-        section = self.get_object(pk)
-        section.delete()
-        return redirect('courseinfo_section_list_urlpattern')
 
 
 class SectionDelete(View):
