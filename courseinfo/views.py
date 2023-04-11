@@ -132,20 +132,6 @@ class SectionDelete(View):
         return redirect('courseinfo_section_list_urlpattern')
 
 
-class CourseList(ListView):
-    model = Course
-
-
-class CourseDetail(DetailView):
-    model = Course
-    def get_context_data(self, **kwargs):
-        context = super(DetailView, self).get_context_data(**kwargs)
-        course = self.get_object()
-        section_list = course.sections.all()
-        context['section_list'] = section_list
-        return context
-
-
 class SectionDelete(View):
 
     def get(self, request, pk):
@@ -175,6 +161,20 @@ class SectionDelete(View):
         section = self.get_object(pk)
         section.delete()
         return redirect('courseinfo_section_list_urlpattern')
+
+
+class CourseList(ListView):
+    model = Course
+
+
+class CourseDetail(DetailView):
+    model = Course
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
+        course = self.get_object()
+        section_list = course.sections.all()
+        context['section_list'] = section_list
+        return context
 
 
 class CourseCreate(CreateView):
