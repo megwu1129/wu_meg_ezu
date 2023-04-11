@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from django.views.generic import ListView, DetailView
-from courseinfo.utils import ObjectCreateMixin
+from django.views.generic import ListView, DetailView, CreateView
 from .utils import PageLinksMixin
 from courseinfo.forms import InstructorForm, SectionForm, CourseForm, SemesterForm, StudentForm, RegistrationForm
 from courseinfo.models import (
@@ -29,9 +28,9 @@ class InstructorDetail(DetailView):
         return context
 
 
-class InstructorCreate(ObjectCreateMixin, View):
+class InstructorCreate(CreateView):
     form_class = InstructorForm
-    template_name = 'courseinfo/instructor_form.html'
+    model = Instructor
 
 
 class InstructorUpdate(View):
@@ -123,9 +122,9 @@ class SectionDetail(DetailView):
         return context
 
 
-class SectionCreate(ObjectCreateMixin, View):
+class SectionCreate(CreateView):
     form_class = SectionForm
-    template_name = 'courseinfo/section_form.html'
+    model = Section
 
 
 class SectionUpdate(View):
@@ -242,9 +241,9 @@ class SectionDelete(View):
         return redirect('courseinfo_section_list_urlpattern')
 
 
-class CourseCreate(ObjectCreateMixin, View):
+class CourseCreate(CreateView):
     form_class = CourseForm
-    template_name = 'courseinfo/course_form.html'
+    model = Course
 
 
 class CourseUpdate(View):
@@ -330,9 +329,9 @@ class SemesterDetail(DetailView):
         return context
 
 
-class SemesterCreate(ObjectCreateMixin, View):
+class SemesterCreate(CreateView):
     form_class = SemesterForm
-    template_name = 'courseinfo/semester_form.html'
+    model = Semester
 
 
 class SemesterUpdate(View):
@@ -419,9 +418,9 @@ class StudentDetail(DetailView):
         return context
 
 
-class StudentCreate(ObjectCreateMixin, View):
+class StudentCreate(CreateView):
     form_class = StudentForm
-    template_name = 'courseinfo/student_form.html'
+    model = Student
 
 
 class StudentUpdate(View):
@@ -497,18 +496,6 @@ class RegistrationList(ListView):
     model = Registration
 
 
-# class RegistrationDetail(View):
-#     def get(self, request, pk):
-#         registration = get_object_or_404(
-#             Registration,
-#             pk=pk
-#         )
-#         return render(
-#             request,
-#             'courseinfo/registration_detail.html',
-#             {'registration': registration}
-#         )
-
 class RegistrationDetail(DetailView):
     model = Registration
     def get_context_data(self, **kwargs):
@@ -516,9 +503,9 @@ class RegistrationDetail(DetailView):
         return context
 
 
-class RegistrationCreate(ObjectCreateMixin, View):
+class RegistrationCreate(CreateView):
     form_class = RegistrationForm
-    template_name = 'courseinfo/registration_form.html'
+    model = Registration
 
 
 class RegistrationUpdate(View):
