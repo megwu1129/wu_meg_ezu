@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .utils import PageLinksMixin
+from django.urls import reverse_lazy
 from courseinfo.forms import InstructorForm, SectionForm, CourseForm, SemesterForm, StudentForm, RegistrationForm
 from courseinfo.models import (
     Instructor,
@@ -354,24 +355,6 @@ class RegistrationUpdate(UpdateView):
     template_name = 'courseinfo/registration_form_update.html'
 
 
-class RegistrationDelete(View):
-
-    def get(self, request, pk):
-        registration = self.get_object(pk)
-        return render(
-            request,
-            'courseinfo/registration_confirm_delete.html',
-            {'registration': registration}
-        )
-
-    def get_object(self, pk):
-        registration = get_object_or_404(
-            Registration,
-            pk=pk
-        )
-        return registration
-
-    def post(self, request, pk):
-        registration = self.get_object(pk)
-        registration.delete()
-        return redirect('courseinfo_registration_list_urlpattern')
+class RegistrationDelete(DeleteView):
+    model = Registration
+    success_url = reverse_lazy('courseinfo_registration_list_urlpattern')
