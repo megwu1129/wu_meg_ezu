@@ -40,10 +40,12 @@ class InstructorUpdate(UpdateView):
     template_name = 'courseinfo/instructor_form_update.html'
 
 
-class InstructorDelete(View):
+class InstructorDelete(DeleteView):
+    model = Instructor
+    success_url = reverse_lazy('courseinfo_instructor_list_urlpattern')
 
     def get(self, request, pk):
-        instructor = self.get_object(pk)
+        instructor = get_object_or_404(Instructor, pk=pk)
         sections = instructor.sections.all()
         if sections.count() > 0:
             return render(
@@ -59,16 +61,6 @@ class InstructorDelete(View):
                 'courseinfo/instructor_confirm_delete.html',
                 {'instructor': instructor}
             )
-
-    def get_object(self, pk):
-        return get_object_or_404(
-            Instructor,
-            pk=pk)
-
-    def post(self, request, pk):
-        instructor = self.get_object(pk)
-        instructor.delete()
-        return redirect('courseinfo_instructor_list_urlpattern')
 
 
 class SectionList(ListView):
