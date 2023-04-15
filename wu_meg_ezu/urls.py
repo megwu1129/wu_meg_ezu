@@ -21,7 +21,7 @@ from django.views.generic import RedirectView, TemplateView
 urlpatterns = [
     path('',
          RedirectView.as_view(
-             pattern_name = 'courseinfo_section_list_urlpattern',
+             pattern_name = 'about_urlpattern',
              permanent=False
          )),
     path('login/',
