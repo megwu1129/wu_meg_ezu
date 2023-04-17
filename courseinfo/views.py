@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .utils import PageLinksMixin
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from courseinfo.forms import InstructorForm, SectionForm, CourseForm, SemesterForm, StudentForm, RegistrationForm
 from courseinfo.models import (
     Instructor,
@@ -14,12 +14,12 @@ from courseinfo.models import (
 )
 
 
-class InstructorList(PageLinksMixin, ListView):
+class InstructorList(LoginRequiredMixin, PermissionRequiredMixin, PageLinksMixin, ListView):
     paginate_by = 25
     model = Instructor
 
 
-class InstructorDetail(DetailView):
+class InstructorDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Instructor
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
@@ -29,18 +29,18 @@ class InstructorDetail(DetailView):
         return context
 
 
-class InstructorCreate(CreateView):
+class InstructorCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = InstructorForm
     model = Instructor
 
 
-class InstructorUpdate(UpdateView):
+class InstructorUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = InstructorForm
     model = Instructor
     template_name = 'courseinfo/instructor_form_update.html'
 
 
-class InstructorDelete(DeleteView):
+class InstructorDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Instructor
     success_url = reverse_lazy('courseinfo_instructor_list_urlpattern')
 
@@ -63,11 +63,11 @@ class InstructorDelete(DeleteView):
             )
 
 
-class SectionList(ListView):
+class SectionList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Section
 
 
-class SectionDetail(DetailView):
+class SectionDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Section
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
@@ -83,18 +83,18 @@ class SectionDetail(DetailView):
         return context
 
 
-class SectionCreate(CreateView):
+class SectionCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = SectionForm
     model = Section
 
 
-class SectionUpdate(UpdateView):
+class SectionUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = SectionForm
     model = Section
     template_name = 'courseinfo/section_form_update.html'
 
 
-class SectionDelete(DeleteView):
+class SectionDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Section
     success_url = reverse_lazy('courseinfo_section_list_urlpattern')
 
@@ -117,11 +117,11 @@ class SectionDelete(DeleteView):
             )
 
 
-class CourseList(ListView):
+class CourseList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Course
 
 
-class CourseDetail(DetailView):
+class CourseDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Course
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
@@ -131,18 +131,18 @@ class CourseDetail(DetailView):
         return context
 
 
-class CourseCreate(CreateView):
+class CourseCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = CourseForm
     model = Course
 
 
-class CourseUpdate(UpdateView):
+class CourseUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = CourseForm
     model = Course
     template_name = 'courseinfo/course_form_update.html'
 
 
-class CourseDelete(DeleteView):
+class CourseDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Course
     success_url = reverse_lazy('courseinfo_course_list_urlpattern')
 
@@ -165,11 +165,11 @@ class CourseDelete(DeleteView):
             )
 
 
-class SemesterList(ListView):
+class SemesterList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Semester
 
 
-class SemesterDetail(DetailView):
+class SemesterDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Semester
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
@@ -179,18 +179,18 @@ class SemesterDetail(DetailView):
         return context
 
 
-class SemesterCreate(CreateView):
+class SemesterCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = SemesterForm
     model = Semester
 
 
-class SemesterUpdate(UpdateView):
+class SemesterUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = SemesterForm
     model = Semester
     template_name = 'courseinfo/semester_form_update.html'
 
 
-class SemesterDelete(DeleteView):
+class SemesterDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Semester
     success_url = reverse_lazy('courseinfo_semester_list_urlpattern')
 
@@ -213,12 +213,12 @@ class SemesterDelete(DeleteView):
             )
 
 
-class StudentList(PageLinksMixin, ListView):
+class StudentList(LoginRequiredMixin, PermissionRequiredMixin, PageLinksMixin, ListView):
     paginate_by = 25
     model = Student
 
 
-class StudentDetail(DetailView):
+class StudentDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Student
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
@@ -228,18 +228,18 @@ class StudentDetail(DetailView):
         return context
 
 
-class StudentCreate(CreateView):
+class StudentCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = StudentForm
     model = Student
 
 
-class StudentUpdate(UpdateView):
+class StudentUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = StudentForm
     model = Student
     template_name = 'courseinfo/student_form_update.html'
 
 
-class StudentDelete(DeleteView):
+class StudentDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Student
     success_url = reverse_lazy('courseinfo_student_list_urlpattern')
 
@@ -262,28 +262,28 @@ class StudentDelete(DeleteView):
             )
 
 
-class RegistrationList(ListView):
+class RegistrationList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Registration
 
 
-class RegistrationDetail(DetailView):
+class RegistrationDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Registration
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
         return context
 
 
-class RegistrationCreate(CreateView):
+class RegistrationCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = RegistrationForm
     model = Registration
 
 
-class RegistrationUpdate(UpdateView):
+class RegistrationUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = RegistrationForm
     model = Registration
     template_name = 'courseinfo/registration_form_update.html'
 
 
-class RegistrationDelete(DeleteView):
+class RegistrationDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Registration
     success_url = reverse_lazy('courseinfo_registration_list_urlpattern')
