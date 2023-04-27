@@ -654,12 +654,17 @@ def add_student_data(apps, schema_editor):
 def remove_student_data(apps, schema_editor):
     student_class = apps.get_model('courseinfo', 'Student')
     for student in STUDENTS:
-        student_object = student_class.objects.get(
-            first_name=student['first_name'],
-            last_name=student['last_name'],
-            disambiguator=student['disambiguator']
-        )
-        student_object.delete()
+        try:
+            student_object = student_class.objects.get(
+                first_name=student['first_name'],
+                last_name=student['last_name'],
+                disambiguator=student['disambiguator']
+            )
+        except ObjectDoesNotExist:
+            pass
+
+        if student_object.student_id is not None:
+            student_object.delete()
 
 
 class Migration(migrations.Migration):

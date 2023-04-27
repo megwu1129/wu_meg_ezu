@@ -654,12 +654,17 @@ def add_instructor_data(apps, schema_editor):
 def remove_instructor_data(apps, schema_editor):
     instructor_class = apps.get_model('courseinfo', 'Instructor')
     for instructor in INSTRUCTORS:
-        instructor_object = instructor_class.objects.get(
-            first_name=instructor['first_name'],
-            last_name=instructor['last_name'],
-            disambiguator=instructor['disambiguator']
-        )
-        instructor_object.delete()
+        try:
+            instructor_object = instructor_class.objects.get(
+                first_name=instructor['first_name'],
+                last_name=instructor['last_name'],
+                disambiguator=instructor['disambiguator']
+            )
+        except ObjectDoesNotExist:
+            pass
+
+        if instructor_object.instructor_id is not None:
+            instructor_object.delete()
 
 
 
